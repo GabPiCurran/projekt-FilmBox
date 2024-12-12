@@ -104,3 +104,59 @@ const filmy = [
 		premiera: '2022-12-24',
 	},
 ]
+
+/* Bonus, přidej vlastní film */
+
+filmy.push({
+	id: 'beetlejuice',
+	nazev: 'Beetlejuice Beetlejuice',
+	plakat: {
+		url: 'https://image.pmgstatic.com/cache/resized/w663/files/images/film/posters/169/126/169126046_696bc7.jpg',
+		sirka: 663,
+		vyska: 909,
+	},
+	ochutnavka: 'Hravé pokračování úspěšné komedie Tima Burtona.',
+	popis: 'Dvojka legendární komedie vypráví příběh tří generací rodiny Deetzových, jež se vracejí domů do Winter River. Život Lydie, kterou stále pronásleduje Beetlejuice, se obrátí vzhůru nohama, když její vzpurná dospívající dcera Astrid objeví na půdě tajemný model města a omylem otevře portál do posmrtného života.',
+	premiera: '2024-09-01',
+}) 
+
+/* Na stránce se seznamem filmů vypište karty se všemi filmy z pole filmy.
+
+Přejděte v prohlížeči na stránku se seznamem.
+
+Na konci souboru seznam.js pomocí document.querySelector vyhledejte prvek s id seznam-filmu.
+
+Vymažte tomuto prvku jeho vnitřní HTML, aby byl prázdný.
+
+Pomocí cyklu projděte všechny filmy z předpřipraveného pole a pro každý přidejte do prvku #seznam-filmu následující HTML doplněné o patřičné informace (název, ochutnávku, plakát).
+
++ úkol č.5.2 V souboru seznam.js v HTML kódu z předchozího úkolu (který zobrazuje jeden film v seznamu) přidejte do odkazu href za film.html znak mřížky (#) a za něj ještě unikátní identifikátor (id), který má každý film jiný. HTML by pak mělo vypadat zhruba takto:
+
+`<a href="film.html#${id}" class="btn btn-primary">Přehrát</a>`
+*/
+
+const seznamFilmu = document.querySelector("#seznam-filmu")
+seznamFilmu.innerHTML = ''
+
+
+filmy.forEach((film) => {
+seznamFilmu.innerHTML += `
+<div class="col">
+<div class="card">
+<img
+src="${film.plakat.url}", "https://via.placeholder.com/780x520?text=Plak%C3%A1t"
+width="780"
+height="520"
+class="card-img-top"
+alt="plakát"
+/>
+<div class="card-body">
+<h5 class="card-title">${film.nazev}</h5>
+<p class="card-text">${film.ochutnavka}</p>
+<a href="film.html#${film.id}" class="btn btn-primary">Přehrát</a>
+</div>
+</div>
+</div>
+`
+});
+

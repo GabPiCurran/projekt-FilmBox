@@ -104,3 +104,91 @@ const filmy = [
 		premiera: '2022-12-24',
 	},
 ]
+
+/* přidej vlastní film */
+
+filmy.push({
+	id: 'beetlejuice',
+	nazev: 'Beetlejuice Beetlejuice',
+	plakat: {
+		url: 'https://image.pmgstatic.com/cache/resized/w663/files/images/film/posters/169/126/169126046_696bc7.jpg',
+		sirka: 663,
+		vyska: 909,
+	},
+	ochutnavka: 'Hravé pokračování úspěšné komedie Tima Burtona.',
+	popis: 'Dvojka legendární komedie vypráví příběh tří generací rodiny Deetzových, jež se vracejí domů do Winter River. Život Lydie, kterou stále pronásleduje Beetlejuice, se obrátí vzhůru nohama, když její vzpurná dospívající dcera Astrid objeví na půdě tajemný model města a omylem otevře portál do posmrtného života.',
+	premiera: '2024-09-01',
+}) 
+
+/* V souboru film.js zjistěte, na film s jakým id se uživatel chce dívat – zjistíte to z property location.hash. Všimněte si, že hodnota vlastnosti hash začíná znakem mřížky (#). Id v poli filmy mřížkou nezačínají. Mřížku vhodnou metodou na řetězcích odřízněte. Mřížka není potřeba, je spíš na škodu.
+
+Cyklem prohledejte pole filmy a film s id stejným jako hash (bez mřížky) si poznamenejte do proměnné. (Případně můžete také použít funkci find na poli.)
+
+Vepište informace (název, popis, plakát) o nalezeném filmu do stránky. Upravte textový obsah a atributy příslušných potomků prvku #detail-filmu. Do .card-text vepište dlouhý popis filmu.
+
+*/
+
+
+const hash = window.location.hash.slice(1);
+const film = filmy.find(item => item.id === hash)
+
+if (film) {
+    const detailFilmu = document.querySelector("#detail-filmu");
+    detailFilmu.querySelector('.card-title').textContent = film.nazev;  
+    detailFilmu.querySelector('.card-text').textContent = film.popis; 
+    
+    detailFilmu.querySelector('.col-md-5').innerHTML = ` 
+				<img
+					src="${film.plakat.url}"
+					alt="plakát"
+					class="img-fluid rounded-start"
+					width="${film.plakat.sirka}"
+					height="${film.plakat.vyska}"
+				/>`
+    
+    const datumPremiery = dayjs(film.premiera).format('D. M. YYYY');
+    detailFilmu.querySelector('.text-muted').innerHTML = 'Premiéra <strong>' + datumPremiery + '</strong>'; 
+} 
+
+
+
+/* Umožněte uživateli vyplněním formuláře přidat k filmu vlastní poznámku.
+
+V souboru film.js pomocí document.querySelector najděte prvek s id note-form.
+
+Při pokusu o odeslání tohoto formuláře zamezte výchozí chování prohlížeče.
+
+Ověřte, že uživatel do textového pole, prvku s id message-input něco napsal. Pokud ne, přidejte prvku třídu is-invalid, která ho zvýrazní červeně.
+
+Pokud uživatel něco napsal, ověřte, že souhlasil s podmínkami, že zaškrtl políčko s id terms-checkbox. Pokud nezaškrtl, přidejte políčku třídu is-invalid
+
+Pokud uživatel splnil obě podmínky z kroků výše, nahraďte HTML obsah formuláře za odstavec <p class="card-text">…</p> s textem z textového pole.
+*/
+
+const form = document.querySelector("#note-form")
+const messageInput = document.querySelector("#message-input")
+const termsCheckbox = document.querySelector("#terms-checkbox")
+const cardText = document.querySelector(".card-text")
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault()
+
+    if (messageInput.value === '') {
+        messageInput.classList.add('is-invalid');
+        messageInput.focus();
+      } else {
+        messageInput.classList.remove('is-invalid');}
+
+    if (!termsCheckbox.checked) {
+        termsCheckbox.classList.add('is-invalid');
+        termsCheckbox.focus();
+    } else {
+    termsCheckbox.classList.remove('is-invalid');}
+
+    if (messageInput.value && termsCheckbox.checked) {
+        cardText.innerHTML = `<p class="card-text">${messageInput.value}</p>`}
+    }
+)
+
+
+
